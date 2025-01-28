@@ -1,0 +1,126 @@
+openapi: 3.0.3
+info:
+  title: Enterprise Data Analyzer API
+  description: |
+    API documentation for the Enterprise Data Analyzer system that processes various data sources
+    and provides intelligent query capabilities using vector embeddings and LLM processing.
+  version: 1.0.0
+  contact:
+    name: API Support
+    email: support@enterprise-analyzer.com
+
+servers:
+  - url: http://localhost:8000
+    description: Development server
+  - url: https://api.enterprise-analyzer.com
+    description: Production server
+
+tags:
+  - name: Query
+    description: Query processing endpoints
+  - name: Data Sources
+    description: Data source management endpoints
+  - name: Vector Processing
+    description: Vector processing and embedding endpoints
+
+paths:
+  /query:
+    post:
+      tags:
+        - Query
+      summary: Process a natural language query
+      description: Analyzes the query, retrieves relevant documents, and generates a response using LLM
+      operationId: processQuery
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                query:
+                  type: string
+                  description: The natural language query to process
+                  example: "What were the sales figures for Q1 2024?"
+      responses:
+        '200':
+          description: Successful query processing
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QueryResponse'
+        '400':
+          description: Invalid query parameters
+        '500':
+          description: Internal server error
+
+  /data-sources:
+    post:
+      tags:
+        - Data Sources
+      summary: Add a new data source
+      description: Configure and connect to a new enterprise data source
+      operationId: addDataSource
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DataSourceConfig'
+      responses:
+        '201':
+          description: Data source successfully added
+        '400':
+          description: Invalid configuration
+        '500':
+          description: Connection failed
+
+components:
+  schemas:
+    QueryResponse:
+      type: object
+      properties:
+        response:
+          type: string
+          description: Generated response to the query
+        confidence:
+          type: number
+          format: float
+          description: Confidence score of the response
+        relevantSources:
+          type: array
+          items:
+            type: string
+          description: List of document sources used for generating the response
+      required:
+        - response
+        - confidence
+
+    DataSourceConfig:
+      type: object
+      properties:
+        type:
+          type: string
+          enum: [database, document, api]
+          description: Type of data source
+        connection:
+          type: object
+          description: Connection details specific to the data source type
+        chunkSize:
+          type: integer
+          description: Size of text chunks for processing
+        overlap:
+          type: integer
+          description: Overlap between consecutive chunks
+      required:
+        - type
+        - connection
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+security:
+  - bearerAuth: []

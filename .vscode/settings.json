@@ -1,0 +1,11 @@
+{
+  "type": "setting",
+  "settings": {
+    "editor.formatOnSave": true,
+    "[python]": {
+      "editor.defaultFormatter": "ms-python.black-formatter"
+    },
+    "flake8.enabled": true,
+    "mypy-type-checker.enabled": true
+  }
+}
