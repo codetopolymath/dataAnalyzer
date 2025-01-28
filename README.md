@@ -71,3 +71,12 @@ flowchart TB
     VStore -.-> RAG
     MetaStore -.-> RAG
     Cache -.-> Router
+```
+
+### Branching Strategy
+
+- **main**: Production-ready code
+- **develop**: Integration branch for features
+- **feature/\***: New features and non-emergency fixes
+- **hotfix/\***: Emergency production fixes
+- **release/\***: Release preparation
