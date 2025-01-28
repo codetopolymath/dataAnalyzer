@@ -1,0 +1,39 @@
+name: Branch Protection and CI
+
+on:
+  pull_request:
+    branches: [ main, develop ]
+  push:
+    branches: [ main, develop ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up environment
+      run: |
+        # Add your environment setup steps here
+        echo "Setting up environment..."
+    
+    - name: Install dependencies
+      run: |
+        # Add dependency installation commands
+        echo "Installing dependencies..."
+    
+    - name: Run tests
+      run: |
+        # Add test execution commands
+        echo "Running tests..."
+    
+    - name: Lint code
+      run: |
+        # Add linting commands
+        echo "Linting code..."
+    
+    - name: Check formatting
+      run: |
+        # Add code formatting checks
+        echo "Checking code format..."
